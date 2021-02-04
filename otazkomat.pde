@@ -21,8 +21,8 @@ void setup() {
 
 void draw() {
 
-  for (cislo_otazky = 1; cislo_otazky <= 5; cislo_otazky++) {
 
+  if (cislo_otazky < 5) {
 
     text(otazka[cislo_otazky], (width/3) + 20, 50);
 
@@ -58,7 +58,7 @@ void draw() {
       background(0);
       delay(500);
 
-      text("Tvoje score je "+score, 150, height/2);
+
 
 
 
@@ -84,8 +84,9 @@ void draw() {
       cislo_reseni++;
       background(0);
       delay(500);
-
-      text("Tvoje score je "+score, 150, height/2);
     }
+  } else {
+    text("Tvoje score je "+score, (width/3) + 20, 50);
   }
 }
+
