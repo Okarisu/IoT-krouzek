@@ -45,8 +45,8 @@ void draw() {
   poziceCudlikuX = sirkaCudliku + sirkaMezery;
 
   
-  poziceCudlikuDelX1 = sirkaPlatna - sirkaCudliku - marginRight;
-  poziceCudlikuDelX2 = sirkaPlatna - marginRight;
+  poziceCudlikuDelX1 = width - sirkaCudliku - marginRight;
+  poziceCudlikuDelX2 = width - marginRight;
   poziceCudlikuDelY2 = marginTop + vyskaCudliku;
   
   stroke(255, 0, 0);
