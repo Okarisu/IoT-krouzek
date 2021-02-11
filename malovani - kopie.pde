@@ -22,7 +22,7 @@ void setup() {
 void draw() {
   noFill();
   
-  stroke(0);
+ /* stroke(0);
   rect(marginLeft, marginTop, sirkaCudliku, vyskaCudliku);  
   poziceCudlikuX = sirkaCudliku + sirkaMezery + marginLeft;
 
@@ -44,7 +44,7 @@ void draw() {
   rect(250, marginTop, sirkaCudliku, vyskaCudliku);
   poziceCudlikuX = sirkaCudliku + sirkaMezery;
 
-  
+  */
   poziceCudlikuDelX1 = width - sirkaCudliku - marginRight;
   poziceCudlikuDelX2 = width - marginRight;
   poziceCudlikuDelY2 = marginTop + vyskaCudliku;
