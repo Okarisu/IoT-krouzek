@@ -1,3 +1,9 @@
+/*
+PLEASE, DON'T RUN IT. REALLY. PLEASE, DON'T.
+IT MIGHT KILL YOU.
+SERIOUSLY.
+*/
+
 int marginTop = 10;
 int marginLeft = 10;
 int marginRight = 10;
