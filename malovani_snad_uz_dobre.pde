@@ -14,6 +14,8 @@ int noColorArea = 2 * marginTop + vyskaCudliku; //vertikální hranice panelu s 
 
 int pocetBarev = 20;
 int tloustkaStetce = 5;
+int tloustkaGumy = 10;
+int barvaPlatna = 255;
 
 float Rbarva;
 float Gbarva;
@@ -53,7 +55,7 @@ void setup() {
     
     stroke(0);
     rect(paintAreaX1, paintAreaY1, paintAreaWidth, paintAreaHeight);
-    fill(250);
+    fill(barvaPlatna);
     
     for (int soucasnyPocetBarev = 1; soucasnyPocetBarev <= pocetBarev; soucasnyPocetBarev++) {
         //color a = get(mouseX, mouseY); //co to boha je zač? PHP? jaký get?
@@ -133,20 +135,20 @@ void draw() {
         tloustkaStetce -=2;        
     }
     
-    
+    paint();
     
 }
 
-/*void paint() {
-//PAINT
-if (mousePressed && (mouseButton == LEFT)) {
-stroke(Rbarva, Gbarva, Bbarva);
-//strokeWeight(tloustkaStetce);
-line(pmouseX, pmouseY, mouseX, mouseY);
-//CLEAR
-} else if (mousePressed && (mouseButton == RIGHT)) {
-//strokeWeight(tloustkaGumy);
-//stroke(barvaPlatna);
-line(pmouseX, pmouseY, mouseX, mouseY);
+void paint() {
+    //PAINT
+    if ((mousePressed) && (mouseButton == LEFT)) {
+        //stroke(Rbarva, Gbarva, Bbarva);
+        strokeWeight(tloustkaStetce);
+        line(pmouseX, pmouseY, mouseX, mouseY);
+        //ERASE
+    } else if ((mousePressed) && (mouseButton == RIGHT)) {
+        strokeWeight(tloustkaGumy);
+        stroke(barvaPlatna);
+        line(pmouseX, pmouseY, mouseX, mouseY);
+    }
 }
-}*/
