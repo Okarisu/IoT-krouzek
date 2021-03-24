@@ -20,6 +20,7 @@ int barvaPlatna = 255;
 float Rbarva;
 float Gbarva;
 float Bbarva;
+int firstCol = 0;
 
 int cudlikX = marginLeft;
 int cudlikY = marginTop;
@@ -37,7 +38,9 @@ void setup() {
     background(194, 255, 255);
     
     
-    int paintAreaX1 = marginLeft; //levý okraj malovacího
+    
+    
+    int paintAreaX1 = marginLeft; //levý okraj malovacího plátna
     int paintAreaX2 = width - marginRight; // pravý okraj malovacího plátna
     int paintAreaY1 = noColorArea; //horní okraj plátna
     int paintAreaY2 = height - marginBottom; //dolní okraj plátna
@@ -52,7 +55,7 @@ void setup() {
     int poziceCudlikuStrokeminus = poziceCudlikuDelX1 - posunCudliku;
     int poziceCudlikuStrokeplus = poziceCudlikuStrokeminus - posunCudliku;
     
-    
+    //vykreslení plátna
     stroke(0);
     rect(paintAreaX1, paintAreaY1, paintAreaWidth, paintAreaHeight);
     fill(barvaPlatna);
@@ -65,9 +68,7 @@ void setup() {
         rect(cudlikX, cudlikY, sirkaCudliku, vyskaCudliku);
         
         fill(barvy[poziceBarvy]);
-        cudlikX +=posunCudliku;
-        
-        println("barva " + poziceBarvy + ", kod barvy: " + hex(barvy[poziceBarvy]));
+        cudlikX +=posunCudliku;       
         
         poziceBarvy++;
     }
@@ -84,65 +85,79 @@ void setup() {
     line(poziceCudlikuDelX1, poziceCudlikuDelY2, poziceCudlikuDelX2, marginTop);
     
     //vykreslení tlačítek pro volbu tloušťky štětce
-    stroke(0,0,255);
+    stroke(0, 0, 255);
     noFill();
+    textSize(25);
+    
     rect(poziceCudlikuStrokeplus, marginTop, sirkaCudliku, vyskaCudliku);
-    text("+", poziceCudlikuStrokeplus, marginTop, sirkaCudliku, vyskaCudliku);
+    line(poziceCudlikuStrokeplus,(marginTop + (vyskaCudliku / 2)), poziceCudlikuStrokeplus + sirkaCudliku,(marginTop + (vyskaCudliku / 2)));
+    line((poziceCudlikuStrokeplus + (sirkaCudliku / 2)), marginTop,(poziceCudlikuStrokeplus + (sirkaCudliku / 2)), marginTop + vyskaCudliku);
     rect(poziceCudlikuStrokeminus, marginTop, sirkaCudliku, vyskaCudliku);
-    text("-", poziceCudlikuStrokeminus, marginTop, sirkaCudliku, vyskaCudliku);
+    line(poziceCudlikuStrokeminus,(marginTop + (vyskaCudliku / 2)), poziceCudlikuStrokeminus + sirkaCudliku,(marginTop + (vyskaCudliku / 2)));
+    
 }
 
 void draw() {
+    
+    
     
     
     //DEL
     int poziceCudlikuDelX1 = width - sirkaCudliku - marginRight; //levý okraj DEL
     int poziceCudlikuDelX2 = width - marginRight; //pravý okraj DEL
     int poziceCudlikuDelY2 = marginTop + vyskaCudliku; //spodní okraj DEL
-    int paintAreaX1 = marginLeft; //levý okraj plátna
     
+    int paintAreaX1 = marginLeft; //levý okraj malovacího plátna
+    int paintAreaX2 = width - marginRight; // pravý okraj malovacího plátna
     int paintAreaY1 = noColorArea; //horní okraj plátna
-    
+    int paintAreaY2 = height - marginBottom; //dolní okraj plátna
     
     int paintAreaWidth = width - marginLeft - marginRight; //šířka plátna
     int paintAreaHeight = height - noColorArea - marginBottom; //výška plátna
     
     int nBarvy = 0;
     int delenaVzdalenost = sirkaCudliku + sirkaMezery;
-    int;
     
+    int poziceCudlikuStrokeminus = poziceCudlikuDelX1 - posunCudliku;
+    int poziceCudlikuStrokeplus = poziceCudlikuStrokeminus - posunCudliku;
+    
+    //nastavení počátečních hodnot
+    stroke(firstCol);
+    strokeWeight(tloustkaStetce);
     
     //DEL fce
     if ((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
         stroke(0);
         rect(paintAreaX1, paintAreaY1, paintAreaWidth, paintAreaHeight);
         fill(250);
-    }    
+    }  
     
     //výběr barvy
     if ((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
         nBarvy = mouseX / delenaVzdalenost;
-        stroke(barvy[nBarvy]);        
+        stroke(barvy[nBarvy - 1]);//nevím proč - 1, ale funguje to tak
     }
     
     //tloušťka štětce plus
     if ((mousePressed) && (mouseX > poziceCudlikuStrokeplus) && (mouseX < poziceCudlikuStrokeplus + sirkaCudliku) && (mouseY > marginTop) && (mouseY > vyskaPalety)) {
-        tloustkaStetce +=2;        
+        tloustkaStetce +=2;
     }
     
     //tloušťka štětce minus
     if ((mousePressed) && (mouseX > poziceCudlikuStrokeminus) && (mouseX < poziceCudlikuStrokeminus + sirkaCudliku) && (mouseY > marginTop) && (mouseY > vyskaPalety)) {
-        tloustkaStetce -=2;        
+        tloustkaStetce -=2;
     }
     
-    paint();
-    
+    //paint
+    if ((mousePressed) && (mouseX > paintAreaX1) && (mouseX < paintAreaX2) && (mouseY > paintAreaY1) && (mouseY < paintAreaY2)) {
+        paint();
+    }
 }
 
 void paint() {
     //PAINT
     if ((mousePressed) && (mouseButton == LEFT)) {
-        //stroke(Rbarva, Gbarva, Bbarva);
+        //stroke(barvy[nBarvy]);
         strokeWeight(tloustkaStetce);
         line(pmouseX, pmouseY, mouseX, mouseY);
         //ERASE
