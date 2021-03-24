@@ -150,7 +150,7 @@ void draw() {
     
     
     //DEL fce
-    if((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
+    if ((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
         stroke(backgroundColor);
         strokeWeight(0);
         fill(backgroundColor);
@@ -166,20 +166,20 @@ void draw() {
     
     
     //výběr barvy
-    if((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
+    if ((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
         nBarvy = mouseX / delenaVzdalenost;
         actCol = barvy[nBarvy - 1];
         stroke(actCol);//nevím proč - 1, ale funguje to tak
     }
     
     //tloušťka štětce plus
-    if((mousePressed) && (mouseX > poziceCudlikuStrokeplus) && (mouseX < (poziceCudlikuStrokeplus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+    if ((mousePressed) && (mouseX > poziceCudlikuStrokeplus) && (mouseX < (poziceCudlikuStrokeplus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
         tloustkaStetce = tloustkaStetce + 2;
     }
     
     //tloušťka štětce minus
     
-    if((mousePressed) && (mouseX > poziceCudlikuStrokeminus) && (mouseX < (poziceCudlikuStrokeminus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+    if ((mousePressed) && (mouseX > poziceCudlikuStrokeminus) && (mouseX < (poziceCudlikuStrokeminus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
         if (tloustkaStetce > 0) { 
             tloustkaStetce = tloustkaStetce - 2;
         }
@@ -187,22 +187,22 @@ void draw() {
     
     
     //paint
-    if((mousePressed) && (mouseX > paintAreaX1) && (mouseX < paintAreaX2) && (mouseY > paintAreaY1) && (mouseY < paintAreaY2)) {
+    if ((mousePressed) && (mouseX > paintAreaX1) && (mouseX < paintAreaX2) && (mouseY > paintAreaY1) && (mouseY < paintAreaY2)) {
         paint();
     }
     
     //save
-    if((mousePressed) && (mouseX > poziceSave) && (mouseX < poziceSave + sirkaSave) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+    if ((mousePressed) && (mouseX > poziceSave) && (mouseX < poziceSave + sirkaSave) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
         save(filenameConverted);
         filenumber++;
     }
     
-    //correct();
+    
 }
 
 void paint() {
     //PAINT
-    if((mousePressed) && (mouseButton == LEFT)) {
+    if ((mousePressed) && (mouseButton == LEFT)) {
         stroke(actCol);
         strokeWeight(tloustkaStetce);
         line(pmouseX, pmouseY, mouseX, mouseY);
@@ -214,13 +214,3 @@ void paint() {
     }
 }
 
-/*void correct() {
-color backgroundColor = color(194, 255, 255);
-
-fill(backgroundColor);
-strokeWeight(1);
-rect(0, vyskaPalety+1, width, noColorArea - vyskaPalety);
-rect(0, height - marginBottom+1, width, marginBottom);
-rect(0, noColorArea, marginLeft, height - noColorArea);
-rect(width - marginRight+1, noColorArea, marginRight, height - noColorArea);
-}*/
