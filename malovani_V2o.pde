@@ -22,6 +22,7 @@ float Gbarva;
 float Bbarva;
 int firstCol = 0;
 int firstStroke = 5;
+color actCol;
 
 int cudlikX = marginLeft;
 int cudlikY = marginTop;
@@ -146,6 +147,8 @@ void draw() {
     color backgroundColor = color(194, 255, 255);
     
     
+    
+    
     //DEL fce
     if((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
         stroke(backgroundColor);
@@ -165,7 +168,8 @@ void draw() {
     //výběr barvy
     if((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
         nBarvy = mouseX / delenaVzdalenost;
-        stroke(barvy[nBarvy - 1]);//nevím proč - 1, ale funguje to tak
+        actCol = barvy[nBarvy - 1];
+        stroke(actCol);//nevím proč - 1, ale funguje to tak
     }
     
     //tloušťka štětce plus
@@ -199,7 +203,7 @@ void draw() {
 void paint() {
     //PAINT
     if((mousePressed) && (mouseButton == LEFT)) {
-        //stroke(barvy[nBarvy]);
+        stroke(actCol);
         strokeWeight(tloustkaStetce);
         line(pmouseX, pmouseY, mouseX, mouseY);
         //ERASE
