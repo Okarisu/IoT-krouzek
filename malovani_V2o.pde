@@ -27,14 +27,15 @@ color actCol;
 int cudlikX = marginLeft;
 int cudlikY = marginTop;
 
-color[] barvy = new color[pocetBarev];
+color[] barvy = new color[pocetBarev + 1];
 int poziceBarvy = 0;
 
 String save = "ULOŽIT";
 String filename = "obrazek";
 String fileextension = ".png";
+int filenumber = 1;
 
-
+boolean released = true;
 
 
 void setup() {
@@ -74,6 +75,7 @@ void setup() {
         barvy[poziceBarvy] = color(round(random(255)), round(random(255)), round(random(255)));
         
         rect(cudlikX, cudlikY, sirkaCudliku, vyskaCudliku);
+        println("cudlikX first je", cudlikX);
         
         fill(barvy[poziceBarvy]);
         cudlikX +=posunCudliku;       
@@ -81,9 +83,12 @@ void setup() {
         poziceBarvy++;
     }
     
+    poziceBarvy = 0;
+    
+    
     sirkaPalety = cudlikX + sirkaCudliku; //určení šířky paletky (pravá strana posledního čudlíku)
     
-    int cudlikX = marginLeft;//vynulování pozice prvního čudlíku
+    cudlikX = marginLeft;//vynulování pozice prvního čudlíku
     
     //vykreslení tlačítka DELETE
     stroke(255, 0, 0);
@@ -156,55 +161,109 @@ void draw() {
     
     color backgroundColor = color(194, 255, 255);
     
-    
-    
-    
-    //DEL fce
-    if ((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
-        stroke(backgroundColor);
-        strokeWeight(0);
-        fill(backgroundColor);
-        rect(0, paintAreaY1, width,(height - noColorArea));
-        
-        stroke(0);
-        strokeWeight(1);
-        fill(250);
-        rect(paintAreaX1, paintAreaY1, paintAreaWidth, paintAreaHeight);
-        
-        strokeWeight(tloustkaStetce);
-    } 
-    
-    
-    //výběr barvy
-    if ((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
-        nBarvy = mouseX / delenaVzdalenost;
-        actCol = barvy[nBarvy - 1];
-        stroke(actCol);//nevím proč - 1, ale funguje to tak
-    }
-    
-    //tloušťka štětce plus
-    if ((mousePressed) && (mouseX > poziceCudlikuStrokeplus) && (mouseX < (poziceCudlikuStrokeplus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
-        tloustkaStetce = tloustkaStetce + 2;
-    }
-    
-    //tloušťka štětce minus
-    
-    if ((mousePressed) && (mouseX > poziceCudlikuStrokeminus) && (mouseX < (poziceCudlikuStrokeminus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
-        if (tloustkaStetce > 0) { 
-            tloustkaStetce = tloustkaStetce - 2;
+    cudlikX = marginLeft;
+    /* 
+    if (mousePressed &&) {
+      released = false;
+  } else if (!mousePressed) {
+      released = true;
+  }
+    */
+    // if (released == true) {
+      
+      //DEL fce
+      if ((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
+          stroke(backgroundColor);
+          strokeWeight(0);
+          fill(backgroundColor);
+          //rect(0, paintAreaY1, width,(height - noColorArea));
+          background(backgroundColor);
+          
+          stroke(0);
+          strokeWeight(1);
+          fill(250);
+          rect(paintAreaX1, paintAreaY1, paintAreaWidth, paintAreaHeight);
+          
+          
+          for (int soucasnyPocetBarev = 1; soucasnyPocetBarev <= pocetBarev; soucasnyPocetBarev++) {
+              
+              println(soucasnyPocetBarev, "/", pocetBarev);
+              
+              rect(cudlikX, cudlikY, sirkaCudliku, vyskaCudliku);
+              
+              fill(barvy[poziceBarvy]);
+              println("pozice", poziceBarvy);
+              println("cudlikX je", cudlikX);
+              cudlikX +=posunCudliku;       
+              
+              poziceBarvy++;
         }
+          
+          poziceBarvy = 0;
+          
+          
+          
+          //vykreslení tlačítka DELETE
+          stroke(255, 0, 0);
+          strokeWeight(3);
+          noFill();
+          rect(poziceCudlikuDelX1, marginTop, sirkaCudliku, vyskaCudliku);
+          line(poziceCudlikuDelX1, marginTop, poziceCudlikuDelX2, poziceCudlikuDelY2);
+          line(poziceCudlikuDelX1, poziceCudlikuDelY2, poziceCudlikuDelX2, marginTop);
+          
+          //vykreslení tlačítek pro volbu tloušťky štětce
+          stroke(0, 0, 255);
+          noFill();
+          
+          rect(poziceCudlikuStrokeplus, marginTop, sirkaCudliku, vyskaCudliku);
+          line(poziceCudlikuStrokeplus,(marginTop + (vyskaCudliku / 2)), poziceCudlikuStrokeplus + sirkaCudliku,(marginTop + (vyskaCudliku / 2)));
+          line((poziceCudlikuStrokeplus + (sirkaCudliku / 2)), marginTop,(poziceCudlikuStrokeplus + (sirkaCudliku / 2)), marginTop + vyskaCudliku);
+          rect(poziceCudlikuStrokeminus, marginTop, sirkaCudliku, vyskaCudliku);
+          line(poziceCudlikuStrokeminus,(marginTop + (vyskaCudliku / 2)), poziceCudlikuStrokeminus + sirkaCudliku,(marginTop + (vyskaCudliku / 2)));
+          
+          
+          //vykreslení tlačítka save
+          fill(0);
+          text(save, poziceSave + 3, marginTop + 1, sirkaSave, vyskaCudliku);
+          stroke(2);
+          noFill();
+          rect(poziceSave, marginTop, sirkaSave, vyskaCudliku);
+          
+          strokeWeight(tloustkaStetce);
+          
+    }    
+      
+      //výběr barvy
+      if ((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
+          nBarvy = mouseX / delenaVzdalenost;
+          if (nBarvy > 1) {actCol = barvy[nBarvy - 1];}
+          stroke(actCol);//nevím proč - 1, ale funguje to tak
+    }
+      
+      //tloušťka štětce plus
+      if ((mousePressed) && (mouseX > poziceCudlikuStrokeplus) && (mouseX < (poziceCudlikuStrokeplus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+          tloustkaStetce = tloustkaStetce + 2;
+          println(tloustkaStetce);
+    }
+      
+      //tloušťka štětce minus
+      
+      if ((mousePressed) && (mouseX > poziceCudlikuStrokeminus) && (mouseX < (poziceCudlikuStrokeminus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+          if (tloustkaStetce > 0) { 
+              tloustkaStetce = tloustkaStetce - 2;
+        }
+          println(tloustkaStetce);
+    }
+      
+      //save
+      if ((mousePressed) && (mouseX > poziceSave) && (mouseX < poziceSave + sirkaSave) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+          save(filenameConverted);
     }
     
     
     //paint
-    if ((mousePressed) && (mouseX > paintAreaX1) && (mouseX < paintAreaX2) && (mouseY > paintAreaY1) && (mouseY < paintAreaY2)) {
+    if ((mousePressed) && (mouseX + (tloustkaStetce / 2)> paintAreaX1) && (mouseX - (tloustkaStetce / 2) < paintAreaX2) && (mouseY + (tloustkaStetce / 2)> paintAreaY1) && (mouseY - (tloustkaStetce / 2) < paintAreaY2)) {
         paint();
-    }
-    
-    //save
-    if ((mousePressed) && (mouseX > poziceSave) && (mouseX < poziceSave + sirkaSave) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
-        save(filenameConverted);
-        
     }
     
     
@@ -223,4 +282,95 @@ void paint() {
         line(pmouseX, pmouseY, mouseX, mouseY);
     }
 }
-
+/*
+void mouseClicked() {
+//DEL fce
+   if ((mousePressed) && (mouseX > poziceCudlikuDelX1) && (mouseX < poziceCudlikuDelX2)  && (marginTop < mouseY) && (mouseY < vyskaPalety)) {
+       stroke(backgroundColor);
+       strokeWeight(0);
+       fill(backgroundColor);
+       //rect(0, paintAreaY1, width,(height - noColorArea));
+       background(backgroundColor);
+       
+       stroke(0);
+       strokeWeight(1);
+       fill(250);
+       rect(paintAreaX1, paintAreaY1, paintAreaWidth, paintAreaHeight);
+       
+       
+       for (int soucasnyPocetBarev = 1; soucasnyPocetBarev <= pocetBarev; soucasnyPocetBarev++) {
+           
+           println(soucasnyPocetBarev, "/", pocetBarev);
+           
+           rect(cudlikX, cudlikY, sirkaCudliku, vyskaCudliku);
+           
+           fill(barvy[poziceBarvy]);
+           println("pozice", poziceBarvy);
+           println("cudlikX je", cudlikX);
+           cudlikX +=posunCudliku;       
+           
+           poziceBarvy++;
+       }
+       
+       poziceBarvy = 0;
+       
+       
+       
+       //vykreslení tlačítka DELETE
+       stroke(255, 0, 0);
+       strokeWeight(3);
+       noFill();
+       rect(poziceCudlikuDelX1, marginTop, sirkaCudliku, vyskaCudliku);
+       line(poziceCudlikuDelX1, marginTop, poziceCudlikuDelX2, poziceCudlikuDelY2);
+       line(poziceCudlikuDelX1, poziceCudlikuDelY2, poziceCudlikuDelX2, marginTop);
+       
+       //vykreslení tlačítek pro volbu tloušťky štětce
+       stroke(0, 0, 255);
+       noFill();
+       
+       rect(poziceCudlikuStrokeplus, marginTop, sirkaCudliku, vyskaCudliku);
+       line(poziceCudlikuStrokeplus,(marginTop + (vyskaCudliku / 2)), poziceCudlikuStrokeplus + sirkaCudliku,(marginTop + (vyskaCudliku / 2)));
+       line((poziceCudlikuStrokeplus + (sirkaCudliku / 2)), marginTop,(poziceCudlikuStrokeplus + (sirkaCudliku / 2)), marginTop + vyskaCudliku);
+       rect(poziceCudlikuStrokeminus, marginTop, sirkaCudliku, vyskaCudliku);
+       line(poziceCudlikuStrokeminus,(marginTop + (vyskaCudliku / 2)), poziceCudlikuStrokeminus + sirkaCudliku,(marginTop + (vyskaCudliku / 2)));
+       
+       
+       //vykreslení tlačítka save
+       fill(0);
+       text(save, poziceSave + 3, marginTop + 1, sirkaSave, vyskaCudliku);
+       stroke(2);
+       noFill();
+       rect(poziceSave, marginTop, sirkaSave, vyskaCudliku);
+       
+       strokeWeight(tloustkaStetce);
+       
+   }    
+   
+   //výběr barvy
+   if ((mousePressed) && (mouseX <= sirkaPalety) && (mouseY <= vyskaPalety)) {
+       nBarvy = mouseX / delenaVzdalenost;
+       if (nBarvy > 1) {actCol = barvy[nBarvy - 1];}
+       stroke(actCol);//nevím proč - 1, ale funguje to tak
+   }
+   
+   //tloušťka štětce plus
+   if ((mousePressed) && (mouseX > poziceCudlikuStrokeplus) && (mouseX < (poziceCudlikuStrokeplus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+       tloustkaStetce = tloustkaStetce + 2;
+       println(tloustkaStetce);
+   }
+   
+   //tloušťka štětce minus
+   
+   if ((mousePressed) && (mouseX > poziceCudlikuStrokeminus) && (mouseX < (poziceCudlikuStrokeminus + sirkaCudliku)) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+       if (tloustkaStetce > 0) { 
+           tloustkaStetce = tloustkaStetce - 2;
+       }
+       println(tloustkaStetce);
+   }
+   
+   //save
+   if ((mousePressed) && (mouseX > poziceSave) && (mouseX < poziceSave + sirkaSave) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
+       save(filenameConverted);
+   }
+}
+}*/
