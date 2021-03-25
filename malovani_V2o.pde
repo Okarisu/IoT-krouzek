@@ -33,7 +33,6 @@ int poziceBarvy = 0;
 String save = "ULOŽIT";
 String filename = "obrazek";
 String fileextension = ".png";
-int filenumber = 1;
 
 
 
@@ -205,7 +204,7 @@ void draw() {
     //save
     if ((mousePressed) && (mouseX > poziceSave) && (mouseX < poziceSave + sirkaSave) && (mouseY > marginTop) && (mouseY < vyskaPalety)) {
         save(filenameConverted);
-        filenumber++;
+        
     }
     
     
