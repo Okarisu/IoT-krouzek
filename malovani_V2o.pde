@@ -142,7 +142,18 @@ void draw() {
     int sirkaSave = round(textWidth(save)) + 6;
     int poziceSave = poziceCudlikuStrokeplus - sirkaMezery - sirkaSave;
     
-    String filenameConverted = filename + str(filenumber) + fileextension;
+    int y = year();
+    int month = month();
+    int d = day();
+    int h = hour();
+    int min = minute();
+    int s = second();
+    
+    String date = str(y) + "-" + str(month) + "-" + str(d);
+    String time = str(h) + "-" + str(min) + "-" + str(s);
+    String dateConverted = date + "-" + time;
+    
+    String filenameConverted = filename + "-" + dateConverted + fileextension;
     
     color backgroundColor = color(194, 255, 255);
     
