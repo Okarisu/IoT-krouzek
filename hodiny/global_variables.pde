@@ -7,6 +7,7 @@ int startTime = millis();
 int buttonGap = 10;
 
 boolean runStopwatch = false;
+boolean printStopwatch = false;
 boolean stopStopwatch = false;
 
 long stopkyTimeStart = 0;
@@ -14,7 +15,10 @@ long printTime = 0;
 long pauseTimeStart = 0;
 long pauseLength = 0;
 long keepPausedTime = 0;
+long cas = 0;
+long pauseLengthSave = 0;
 
-boolean stopwatchReturn = false;
+
+boolean firstClick = false;
 boolean stopwatchReturnTime = false;
 boolean runStoppedStopwatch = false;
